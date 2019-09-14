@@ -13,7 +13,7 @@ const initialState = {
   historyScore: [],
   currentIndex: 0,
   statusMap: ['unselected', 'unselected', 'unselected', 'unselected'],
-  status: '',
+  status: 'waiting',
   error: '',
 };
 
@@ -26,7 +26,6 @@ const questionsReducer = (state = initialState, action) => {
       state = {...state, statusMap: action.payload};
       break;
     case UPDATE_SCORE:
-      console.log('score', action.payload);
       let historyScore = state.historyScore;
       historyScore.push(action.payload);
       state = {...state, historyScore: historyScore};
@@ -43,6 +42,9 @@ const questionsReducer = (state = initialState, action) => {
     case QUESTION_RECEIVED:
       state = Object.assign({}, state, {
         questions: formatQuestions([...action.payload]),
+        currentIndex: 0,
+        historyScore: [],
+        statusMap: ['unselected', 'unselected', 'unselected', 'unselected'],
         status: 'received',
       });
       break;
@@ -59,7 +61,9 @@ const questionsReducer = (state = initialState, action) => {
 export default questionsReducer;
 
 const formatQuestions = questions => {
-  if (!questions.length) return [];
+  if (!questions.length) {
+    return [];
+  }
   const formattedQuestions = questions.map((question, index) => {
     let questionObjFormatted;
     const questionFormatted = decode(question.question);

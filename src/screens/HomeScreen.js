@@ -1,23 +1,33 @@
 import React from 'react';
-import {View, Text, Button, StyleSheet} from 'react-native';
+import {
+  View,
+  Icon,
+  Text,
+  Button,
+  StyleSheet,
+  ActivityIndicator,
+} from 'react-native';
 import {connect} from 'react-redux';
 import {getQuestions} from '../store/actions/questions';
 
 class HomeScreen extends React.Component {
   state = {
     questions: [],
+    status: '',
   };
   goToQuestion = () => {
     this.props.navigation.navigate('Game');
   };
-
-  render() {
+  buttonView = () => {
+    if (this.props.status === 'waiting') {
+      return <ActivityIndicator animating size="large" color="#00ff00" />;
+    }
     return (
-      <View style={styles.container}>
-        <Text>{this.props.placeName}</Text>
-        <Button title="home" onPress={this.goToQuestion} />
-      </View>
+      <Button title="PLAY GAME" loading={true} onPress={this.goToQuestion} />
     );
+  };
+  render() {
+    return <View style={styles.container}>{this.buttonView()}</View>;
   }
   componentDidMount() {
     this.props.qetQuestions();
@@ -27,6 +37,7 @@ class HomeScreen extends React.Component {
 const mapStateToProps = state => {
   return {
     questions: state.questions,
+    status: state.questionReducer.status,
   };
 };
 
