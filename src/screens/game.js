@@ -21,11 +21,11 @@ class Game extends React.Component {
     isCurrentQuestionClicked: false,
   };
   goToNextQuestion = () => {
-    this.props.selectNextQuestion();
     console.log(this.props.isGameOver);
     if (this.props.isGameOver) {
       this.props.navigation.navigate('End');
     } else {
+      this.props.selectNextQuestion();
       this.setState({isCurrentQuestionClicked: false});
     }
   };
@@ -44,6 +44,7 @@ class Game extends React.Component {
       return 'unselected';
     });
     this.props.handleUserResponse(statusColorMap);
+    console.log('isGameOver', this.props.isGameOver);
   };
   showMessageNextQuestion = () => {
     if (this.state.isCurrentQuestionClicked) {
