@@ -5,10 +5,12 @@ import {
   INC_CURRENT_INDEX,
   UPDATE_STATUS_MAP,
   INIT_STATUS_MAP,
+  UPDATE_SCORE,
 } from '../actions/types';
 
 const initialState = {
   questions: [],
+  historyScore: [],
   currentIndex: 0,
   statusMap: ['unselected', 'unselected', 'unselected', 'unselected'],
   status: '',
@@ -22,6 +24,12 @@ const questionsReducer = (state = initialState, action) => {
       break;
     case UPDATE_STATUS_MAP:
       state = {...state, statusMap: action.payload};
+      break;
+    case UPDATE_SCORE:
+      console.log('score', action.payload);
+      let historyScore = state.historyScore;
+      historyScore.push(action.payload);
+      state = {...state, historyScore: historyScore};
       break;
     case INIT_STATUS_MAP:
       state = {

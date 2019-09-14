@@ -6,12 +6,20 @@ import {
   UPDATE_STATUS_MAP,
   INIT_STATUS_MAP,
   INC_CURRENT_INDEX,
+  UPDATE_SCORE,
 } from '../actions/types';
 
 export const handleUserResponse = statusMap => {
   return {
     type: UPDATE_STATUS_MAP,
     payload: statusMap,
+  };
+};
+
+export const updateScore = (isGoodAnswer, time) => {
+  return {
+    type: UPDATE_SCORE,
+    payload: {isGoodAnswer, time},
   };
 };
 

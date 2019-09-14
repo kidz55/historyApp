@@ -10,27 +10,40 @@ import {connect} from 'react-redux';
 import {
   handleUserResponse,
   selectNextQuestion,
+  updateScore,
 } from '../store/actions/questions';
 import Reponse from '../components/reponse';
 import {getCurrentQuestion, isGameOver} from '../store/getters/questions';
 
 class Game extends React.Component {
   state = {
+    questionTimer: 0,
+    questionTimerIntervalId: null,
     currentQuestion: {},
     selectedQuestion: {},
     isCurrentQuestionClicked: false,
   };
   goToNextQuestion = () => {
-    console.log(this.props.isGameOver);
     if (this.props.isGameOver) {
       this.props.navigation.navigate('End');
     } else {
       this.props.selectNextQuestion();
-      this.setState({isCurrentQuestionClicked: false});
+      this.startQuestionSession();
     }
+  };
+  startQuestionSession = () => {
+    this.setState({isCurrentQuestionClicked: false});
+    this.setState({questionTimer: 0});
+    this.setState({
+      questionTimerIntervalId: setInterval(this.increaseQuestionTimer, 1000),
+    });
+  };
+  increaseQuestionTimer = () => {
+    this.setState({questionTimer: this.state.questionTimer + 1});
   };
   handleResponse = indexResponse => {
     this.setState({isCurrentQuestionClicked: true});
+    clearInterval(this.state.questionTimerIntervalId);
     this.state.selectedQuestion = this.props.currentQuestion.responses[
       indexResponse
     ];
@@ -43,8 +56,11 @@ class Game extends React.Component {
       }
       return 'unselected';
     });
+    this.props.updateScore(
+      this.state.selectedQuestion.isAnswer,
+      this.state.questionTimer,
+    );
     this.props.handleUserResponse(statusColorMap);
-    console.log('isGameOver', this.props.isGameOver);
   };
   showMessageNextQuestion = () => {
     if (this.state.isCurrentQuestionClicked) {
@@ -57,6 +73,9 @@ class Game extends React.Component {
       return null;
     }
   };
+  componentDidMount() {
+    this.startQuestionSession();
+  }
   render() {
     return (
       <TouchableWithoutFeedback
@@ -105,6 +124,8 @@ const mapDispatchToProps = dispatch => {
     handleUserResponse: statusColor =>
       dispatch(handleUserResponse(statusColor)),
     selectNextQuestion: () => dispatch(selectNextQuestion()),
+    updateScore: (isGoodAnswer, time) =>
+      dispatch(updateScore(isGoodAnswer, time)),
   };
 };
 
