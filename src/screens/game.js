@@ -13,6 +13,7 @@ import {
   updateScore,
 } from '../store/actions/questions';
 import Reponse from '../components/reponse';
+import Question from '../components/question';
 import {getCurrentQuestion, isGameOver} from '../store/getters/questions';
 
 class Game extends React.Component {
@@ -82,11 +83,7 @@ class Game extends React.Component {
         onPress={this.goToNextQuestion}
         disabled={!this.state.isCurrentQuestionClicked}>
         <View style={styles.container}>
-          <View style={styles.question}>
-            <Text style={styles.questionLabel}>
-              {this.props.currentQuestion.questionFormatted}
-            </Text>
-          </View>
+          <Question question={this.props.currentQuestion.questionFormatted} />
           <View style={styles.reponses}>
             {[0, 1, 2, 3].map(i => {
               return (
