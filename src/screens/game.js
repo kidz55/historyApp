@@ -15,6 +15,11 @@ import {
 import Reponse from '../components/reponse';
 import Question from '../components/question';
 import {getCurrentQuestion, isGameOver} from '../store/getters/questions';
+const MAX_TIME_PER_QUESTION = 15;
+
+const getProgressStatus = timer => {
+  return (timer * 100) / MAX_TIME_PER_QUESTION;
+};
 
 class Game extends React.Component {
   state = {
@@ -40,27 +45,44 @@ class Game extends React.Component {
     });
   };
   increaseQuestionTimer = () => {
-    this.setState({questionTimer: this.state.questionTimer + 1});
+    if (this.state.questionTimer >= MAX_TIME_PER_QUESTION) {
+      this.setState({isCurrentQuestionClicked: true});
+      clearInterval(this.state.questionTimerIntervalId);
+      const statusColorMap = this.props.currentQuestion.responses.map(res => {
+        if (res.isAnswer) {
+          return 'green';
+        }
+        return 'unselected';
+      });
+      this.props.updateScore(false, this.state.questionTimer);
+      this.props.handleUserResponse(statusColorMap);
+    } else {
+      this.setState({questionTimer: this.state.questionTimer + 1});
+    }
   };
   handleResponse = indexResponse => {
+    let isResponseGood = false;
     this.setState({isCurrentQuestionClicked: true});
     clearInterval(this.state.questionTimerIntervalId);
-    this.state.selectedQuestion = this.props.currentQuestion.responses[
-      indexResponse
-    ];
+    if (indexResponse >= 0) {
+      this.state.selectedQuestion = this.props.currentQuestion.responses[
+        indexResponse
+      ];
+      isResponseGood = this.state.selectedQuestion.isAnswer;
+    }
     const statusColorMap = this.props.currentQuestion.responses.map(res => {
       if (res.isAnswer) {
         return 'green';
       }
-      if (res.value === this.state.selectedQuestion.value) {
+      if (
+        indexResponse >= 0 &&
+        res.value === this.state.selectedQuestion.value
+      ) {
         return 'red';
       }
       return 'unselected';
     });
-    this.props.updateScore(
-      this.state.selectedQuestion.isAnswer,
-      this.state.questionTimer,
-    );
+    this.props.updateScore(isResponseGood, this.state.questionTimer);
     this.props.handleUserResponse(statusColorMap);
   };
   showMessageNextQuestion = () => {
@@ -83,7 +105,10 @@ class Game extends React.Component {
         onPress={this.goToNextQuestion}
         disabled={!this.state.isCurrentQuestionClicked}>
         <View style={styles.container}>
-          <Question question={this.props.currentQuestion.questionFormatted} />
+          <Question
+            progressStatus={getProgressStatus(this.state.questionTimer)}
+            question={this.props.currentQuestion.questionFormatted}
+          />
           <View style={styles.reponses}>
             {[0, 1, 2, 3].map(i => {
               return (
