@@ -15,23 +15,15 @@ export default class ProgressBar extends Component {
 const styles = StyleSheet.create({
   container: {
     width: '100%',
-    height: 40,
-    padding: 3,
-    borderWidth: 3,
-    borderRadius: 30,
+    height: 30,
+    borderWidth: 1,
+    borderRadius: 7.5,
     justifyContent: 'center',
   },
   inner: {
     width: '100%',
-    height: 30,
-    borderRadius: 15,
+    height: 29,
+    borderRadius: 7.5,
     backgroundColor: 'green',
-  },
-  label: {
-    fontSize: 23,
-    color: 'black',
-    position: 'absolute',
-    zIndex: 1,
-    alignSelf: 'center',
   },
 });

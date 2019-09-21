@@ -116,7 +116,23 @@ class Game extends React.Component {
             question={this.props.currentQuestion.questionFormatted}
           />
           <View style={styles.reponses}>
-            {[0, 1, 2, 3].map(i => {
+            {[0, 1].map(i => {
+              return (
+                <TouchableOpacity
+                  key={i}
+                  disabled={this.state.isCurrentQuestionClicked}
+                  style={styles.questionContainer}
+                  onPress={() => this.handleResponse(i)}>
+                  <Reponse
+                    statusColor={this.props.statusMap[i]}
+                    reponse={this.props.currentQuestion.responses[i]}
+                  />
+                </TouchableOpacity>
+              );
+            })}
+          </View>
+          <View style={styles.reponses}>
+            {[2, 3].map(i => {
               return (
                 <TouchableOpacity
                   key={i}
@@ -165,9 +181,8 @@ export default connect(
 const styles = StyleSheet.create({
   questionContainer: {
     justifyContent: 'center',
-    height: '25%',
-    backgroundColor: '#eee',
-    borderColor: 'red',
+    borderRadius: 10,
+    width: '50%',
   },
   container: {
     flex: 1,
@@ -186,11 +201,10 @@ const styles = StyleSheet.create({
     flex: 2,
     flexDirection: 'column',
     justifyContent: 'center',
-    backgroundColor: 'skyblue',
   },
   reponses: {
-    flex: 5,
-    backgroundColor: 'steelblue',
+    flex: 2,
+    flexDirection: 'row',
   },
   tip: {
     fontSize: 15,

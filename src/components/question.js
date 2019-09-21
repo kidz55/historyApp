@@ -16,12 +16,13 @@ const styles = StyleSheet.create({
     textAlign: 'justify',
     fontSize: 21,
     padding: 5,
-    paddingLeft: 10,
   },
   question: {
     flex: 2,
     flexDirection: 'column',
     justifyContent: 'center',
+    paddingLeft: 10,
+    paddingRight: 10,
   },
 });
 
