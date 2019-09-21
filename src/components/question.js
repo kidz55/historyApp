@@ -6,7 +6,10 @@ const Question = props => {
   return (
     <View style={styles.question}>
       <Text style={styles.questionLabel}>{props.question} </Text>
-      <ProgressBar progressStatus={props.progressStatus} />
+      <ProgressBar
+        maxTime={props.maxTime}
+        progressStatus={props.progressStatus}
+      />
     </View>
   );
 };
@@ -16,6 +19,7 @@ const styles = StyleSheet.create({
     textAlign: 'justify',
     fontSize: 21,
     padding: 5,
+    marginBottom: 10,
   },
   question: {
     flex: 2,

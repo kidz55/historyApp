@@ -16,11 +16,7 @@ import {
 import Reponse from '../components/reponse';
 import Question from '../components/question';
 import {getCurrentQuestion, isGameOver} from '../store/getters/questions';
-const MAX_TIME_PER_QUESTION = 15;
-
-const getProgressStatus = timer => {
-  return (timer * 100) / MAX_TIME_PER_QUESTION;
-};
+const MAX_TIME_PER_QUESTION = 1500;
 
 class Game extends React.Component {
   state = {
@@ -42,7 +38,7 @@ class Game extends React.Component {
     this.setState({isCurrentQuestionClicked: false});
     this.setState({questionTimer: 0});
     this.setState({
-      questionTimerIntervalId: setInterval(this.increaseQuestionTimer, 1000),
+      questionTimerIntervalId: setInterval(this.increaseQuestionTimer, 10),
     });
   };
   increaseQuestionTimer = () => {
@@ -112,7 +108,8 @@ class Game extends React.Component {
         disabled={!this.state.isCurrentQuestionClicked}>
         <View style={styles.container}>
           <Question
-            progressStatus={getProgressStatus(this.state.questionTimer)}
+            maxTime={MAX_TIME_PER_QUESTION}
+            progressStatus={this.state.questionTimer}
             question={this.props.currentQuestion.questionFormatted}
           />
           <View style={styles.reponses}>
@@ -181,7 +178,9 @@ export default connect(
 const styles = StyleSheet.create({
   questionContainer: {
     justifyContent: 'center',
-    borderRadius: 10,
+    backgroundColor: '#e1e1e1',
+    borderColor: 'white',
+    borderWidth: 2,
     width: '50%',
   },
   container: {
