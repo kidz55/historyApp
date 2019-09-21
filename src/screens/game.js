@@ -4,6 +4,7 @@ import {
   StyleSheet,
   TouchableOpacity,
   TouchableWithoutFeedback,
+  Vibration,
 } from 'react-native';
 import {Text} from 'react-native-elements';
 import {connect} from 'react-redux';
@@ -50,7 +51,7 @@ class Game extends React.Component {
       clearInterval(this.state.questionTimerIntervalId);
       const statusColorMap = this.props.currentQuestion.responses.map(res => {
         if (res.isAnswer) {
-          return 'green';
+          return 'good';
         }
         return 'unselected';
       });
@@ -72,18 +73,23 @@ class Game extends React.Component {
     }
     const statusColorMap = this.props.currentQuestion.responses.map(res => {
       if (res.isAnswer) {
-        return 'green';
+        return 'good';
       }
       if (
         indexResponse >= 0 &&
         res.value === this.state.selectedQuestion.value
       ) {
-        return 'red';
+        return 'bad';
       }
       return 'unselected';
     });
     this.props.updateScore(isResponseGood, this.state.questionTimer);
     this.props.handleUserResponse(statusColorMap);
+    if (isResponseGood) {
+      Vibration.vibrate(50);
+    } else {
+      Vibration.vibrate(300);
+    }
   };
   showMessageNextQuestion = () => {
     if (this.state.isCurrentQuestionClicked) {

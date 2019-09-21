@@ -26,10 +26,10 @@ export const updateScore = (isGoodAnswer, time) => {
 export const selectNextQuestion = () => {
   return function(dispatch) {
     dispatch({
-      type: INC_CURRENT_INDEX,
+      type: INIT_STATUS_MAP,
     });
     dispatch({
-      type: INIT_STATUS_MAP,
+      type: INC_CURRENT_INDEX,
     });
   };
 };

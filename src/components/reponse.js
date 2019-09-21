@@ -1,24 +1,27 @@
 import React from 'react';
-import {
-  View,
-  Text,
-  StyleSheet,
-  TouchableOpacity,
-  Vibration,
-} from 'react-native';
+import {View, Text, StyleSheet} from 'react-native';
 
 const Reponse = props => {
-  const onPressed = () => {
-    if (props.reponse.isAnswer) {
-      Vibration.vibrate(50);
-    } else {
-      Vibration.vibrate(300);
+  const reactiveStyle = () => {
+    let style = {
+      flex: 5,
+      justifyContent: 'center',
+    };
+    switch (props.statusColor) {
+      case 'bad':
+        style.backgroundColor = '#db7c7c';
+        break;
+      case 'good':
+        style.backgroundColor = '#7cdb9b';
+        break;
+      default:
+        style.backgroundColor = null;
     }
+    return style;
   };
   return (
-    <View>
+    <View style={reactiveStyle()}>
       <Text style={styles.reponse}>{props.reponse.value}</Text>
-      <Text style={styles.reponse}>{props.statusColor}</Text>
     </View>
   );
 };
