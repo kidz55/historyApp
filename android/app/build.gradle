@@ -188,9 +188,11 @@ android {
 }
 
 dependencies {
+    implementation project(':react-native-admob')
     implementation fileTree(dir: "libs", include: ["*.jar"])
     implementation "com.facebook.react:react-native:+"  // From node_modules
     implementation project(':react-native-gesture-handler')
+    implementation ('com.google.android.gms:play-services-ads:16.+') { force = true; }
     if (enableHermes) {
       def hermesPath = "../../node_modules/hermesvm/android/";
       debugImplementation files(hermesPath + "hermes-debug.aar")

@@ -16,6 +16,8 @@ import {
 import Reponse from '../components/reponse';
 import Question from '../components/question';
 import {getCurrentQuestion, isGameOver} from '../store/getters/questions';
+import {AdMobBanner} from 'react-native-admob';
+
 const MAX_TIME_PER_QUESTION = 1500;
 
 class Game extends React.Component {
@@ -145,7 +147,14 @@ class Game extends React.Component {
             })}
           </View>
           {this.showMessageNextQuestion()}
-          <View style={styles.advertiser} />
+          <View style={styles.advertiser}>
+            <AdMobBanner
+              adSize="fullBanner"
+              adUnitID="ca-app-pub-4007855389429279/6872571512"
+              testDevices={['']}
+              onAdFailedToLoad={error => console.error(error)}
+            />
+          </View>
         </View>
       </TouchableWithoutFeedback>
     );
@@ -210,7 +219,7 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
   advertiser: {
-    flex: 1,
+    flex: 0.5,
     backgroundColor: 'red',
   },
 });
