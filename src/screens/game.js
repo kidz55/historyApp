@@ -21,6 +21,7 @@ import {
   isGameOver,
   getCurrentScore,
 } from '../store/getters/questions';
+import LinearGradient from 'react-native-linear-gradient';
 import {AdMobBanner} from 'react-native-admob';
 
 const MAX_TIME_PER_QUESTION = 1500;
@@ -113,7 +114,9 @@ class Game extends React.Component {
       <TouchableWithoutFeedback
         onPress={this.goToNextQuestion}
         disabled={!this.state.isCurrentQuestionClicked}>
-        <View style={styles.container}>
+        <LinearGradient
+          style={styles.container}
+          colors={['#005AA7', '#FFFDE4']}>
           <Score score={this.props.getCurrentScore} />
           <Question
             maxTime={MAX_TIME_PER_QUESTION}
@@ -126,7 +129,10 @@ class Game extends React.Component {
                 <TouchableOpacity
                   key={i}
                   disabled={this.state.isCurrentQuestionClicked}
-                  style={styles.questionContainer}
+                  style={[
+                    styles.questionContainerUp,
+                    {borderRightWidth: i === 0 ? 2 : 0},
+                  ]}
                   onPress={() => this.handleResponse(i)}>
                   <Reponse
                     statusColor={this.props.statusMap[i]}
@@ -142,7 +148,10 @@ class Game extends React.Component {
                 <TouchableOpacity
                   key={i}
                   disabled={this.state.isCurrentQuestionClicked}
-                  style={styles.questionContainer}
+                  style={[
+                    styles.questionContainerDown,
+                    {borderRightWidth: i === 2 ? 2 : 0},
+                  ]}
                   onPress={() => this.handleResponse(i)}>
                   <Reponse
                     statusColor={this.props.statusMap[i]}
@@ -161,7 +170,7 @@ class Game extends React.Component {
               onAdFailedToLoad={error => console.log(error)}
             />
           </View>
-        </View>
+        </LinearGradient>
       </TouchableWithoutFeedback>
     );
   }
@@ -192,16 +201,25 @@ export default connect(
 )(Game);
 
 const styles = StyleSheet.create({
-  questionContainer: {
+  questionContainerUp: {
     justifyContent: 'center',
-    backgroundColor: '#e1e1e1',
-    borderColor: 'white',
-    borderWidth: 2,
+    borderColor: '#FFFDE4',
+    backgroundColor: '#005AA7',
+    borderTopWidth: 2,
+    borderBottomWidth: 2,
+    width: '50%',
+  },
+  questionContainerDown: {
+    justifyContent: 'center',
+    borderColor: '#FFFDE4',
+    backgroundColor: '#005AA7',
+    borderBottomWidth: 2,
     width: '50%',
   },
   container: {
     flex: 1,
     flexDirection: 'column',
+    color: 'white',
   },
   timer: {
     flex: 1,

@@ -18,6 +18,7 @@ const styles = StyleSheet.create({
   questionLabel: {
     textAlign: 'justify',
     fontSize: 21,
+    color: 'white',
     padding: 5,
     marginBottom: 10,
   },

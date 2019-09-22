@@ -30,6 +30,7 @@ const styles = StyleSheet.create({
   reponse: {
     textAlign: 'center',
     fontSize: 17,
+    color: 'white',
     padding: 7,
   },
 });

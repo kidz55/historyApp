@@ -38,13 +38,13 @@ const styles = StyleSheet.create({
     width: '100%',
     height: 30,
     borderWidth: 1,
-    borderColor: 'grey',
+    borderColor: '#FFFDE4',
     borderRadius: 7.5,
     justifyContent: 'center',
   },
   inner: {
     width: '100%',
     height: 28,
-    borderRadius: 7.5,
+    borderRadius: 7.6,
   },
 });

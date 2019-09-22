@@ -8,6 +8,7 @@ import {
   ActivityIndicator,
 } from 'react-native';
 import {connect} from 'react-redux';
+import LinearGradient from 'react-native-linear-gradient';
 import {getQuestions} from '../store/actions/questions';
 
 class HomeScreen extends React.Component {
@@ -20,14 +21,22 @@ class HomeScreen extends React.Component {
   };
   buttonView = () => {
     if (this.props.status === 'waiting') {
-      return <ActivityIndicator animating size="large" color="#00ff00" />;
+      return <ActivityIndicator animating size="large" color="#005AA7" />;
     }
     return (
-      <Button title="PLAY GAME" loading={true} onPress={this.goToQuestion} />
+      <Button title="PLAY GAME" color="#B93535" onPress={this.goToQuestion} />
     );
   };
   render() {
-    return <View style={styles.container}>{this.buttonView()}</View>;
+    return (
+      <View style={styles.container}>
+        <LinearGradient
+          colors={['#005AA7', '#FFFDE4']}
+          style={styles.linearGradient}>
+          {this.buttonView()}
+        </LinearGradient>
+      </View>
+    );
   }
   componentDidMount() {
     this.props.qetQuestions();
@@ -48,7 +57,12 @@ const mapDispatchToProps = dispatch => {
 };
 
 const styles = StyleSheet.create({
-  container: {flex: 1, alignItems: 'center', justifyContent: 'center'},
+  linearGradient: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  container: {flex: 1},
 });
 export default connect(
   mapStateToProps,
