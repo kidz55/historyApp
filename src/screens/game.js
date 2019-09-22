@@ -15,7 +15,12 @@ import {
 } from '../store/actions/questions';
 import Reponse from '../components/reponse';
 import Question from '../components/question';
-import {getCurrentQuestion, isGameOver} from '../store/getters/questions';
+import Score from '../components/score';
+import {
+  getCurrentQuestion,
+  isGameOver,
+  getCurrentScore,
+} from '../store/getters/questions';
 import {AdMobBanner} from 'react-native-admob';
 
 const MAX_TIME_PER_QUESTION = 1500;
@@ -86,7 +91,7 @@ class Game extends React.Component {
     if (isResponseGood) {
       Vibration.vibrate(50);
     } else {
-      Vibration.vibrate(300);
+      Vibration.vibrate(200);
     }
   };
   showMessageNextQuestion = () => {
@@ -97,7 +102,7 @@ class Game extends React.Component {
         </Text>
       );
     } else {
-      return null;
+      return <Text style={styles.tip} />;
     }
   };
   componentDidMount() {
@@ -109,6 +114,7 @@ class Game extends React.Component {
         onPress={this.goToNextQuestion}
         disabled={!this.state.isCurrentQuestionClicked}>
         <View style={styles.container}>
+          <Score score={this.props.getCurrentScore} />
           <Question
             maxTime={MAX_TIME_PER_QUESTION}
             progressStatus={this.state.questionTimer}
@@ -152,7 +158,7 @@ class Game extends React.Component {
               adSize="fullBanner"
               adUnitID="ca-app-pub-4007855389429279/6872571512"
               testDevices={['']}
-              onAdFailedToLoad={error => console.error(error)}
+              onAdFailedToLoad={error => console.log(error)}
             />
           </View>
         </View>
@@ -165,6 +171,7 @@ const mapStateToProps = state => {
   return {
     currentQuestion: getCurrentQuestion(state),
     isGameOver: isGameOver(state),
+    getCurrentScore: getCurrentScore(state),
     statusMap: state.questionReducer.statusMap,
   };
 };
@@ -220,6 +227,5 @@ const styles = StyleSheet.create({
   },
   advertiser: {
     flex: 0.5,
-    backgroundColor: 'red',
   },
 });

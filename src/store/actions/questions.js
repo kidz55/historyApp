@@ -39,7 +39,7 @@ export const getQuestions = () => {
     dispatch({
       type: QUESTION_REQUESTED,
     });
-    Axios.get('https://opentdb.com/api.php?amount=20&category=11&type=multiple')
+    Axios.get('https://opentdb.com/api.php?amount=10&category=11&type=multiple')
       .then(res =>
         dispatch({
           type: QUESTION_RECEIVED,
