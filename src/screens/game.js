@@ -22,7 +22,7 @@ import {
   getCurrentScore,
 } from '../store/getters/questions';
 import LinearGradient from 'react-native-linear-gradient';
-import {AdMobBanner} from 'react-native-admob';
+import {AdMobBanner, AdMobInterstitial} from 'react-native-admob';
 
 const MAX_TIME_PER_QUESTION = 1500;
 
@@ -36,6 +36,9 @@ class Game extends React.Component {
   };
   goToNextQuestion = () => {
     if (this.props.isGameOver) {
+      AdMobInterstitial.setAdUnitID('ca-app-pub-4007855389429279/8480989040');
+      AdMobInterstitial.setTestDevices([AdMobInterstitial.simulatorId]);
+      AdMobInterstitial.requestAd().then(() => AdMobInterstitial.showAd());
       this.props.navigation.navigate('End');
     } else {
       this.props.selectNextQuestion();

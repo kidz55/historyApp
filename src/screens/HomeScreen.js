@@ -1,13 +1,7 @@
 import React from 'react';
-import {
-  View,
-  Icon,
-  Text,
-  Button,
-  StyleSheet,
-  ActivityIndicator,
-} from 'react-native';
+import {View, StyleSheet, ActivityIndicator} from 'react-native';
 import {connect} from 'react-redux';
+import ButtonCustom from '../components/button';
 import LinearGradient from 'react-native-linear-gradient';
 import {getQuestions} from '../store/actions/questions';
 
@@ -24,18 +18,20 @@ class HomeScreen extends React.Component {
       return <ActivityIndicator animating size="large" color="#005AA7" />;
     }
     return (
-      <Button title="PLAY GAME" color="#B93535" onPress={this.goToQuestion} />
+      <ButtonCustom
+        onPress={this.goToQuestion}
+        buttonText="START QUIZ"
+        buttonColor="#7cdb9b"
+      />
     );
   };
   render() {
     return (
-      <View style={styles.container}>
-        <LinearGradient
-          colors={['#005AA7', '#FFFDE4']}
-          style={styles.linearGradient}>
-          {this.buttonView()}
-        </LinearGradient>
-      </View>
+      <LinearGradient
+        style={styles.linearGradient}
+        colors={['#005AA7', '#FFFDE4']}>
+        <View style={styles.button}>{this.buttonView()}</View>
+      </LinearGradient>
     );
   }
   componentDidMount() {
@@ -62,7 +58,9 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
-  container: {flex: 1},
+  button: {
+    height: 50,
+  },
 });
 export default connect(
   mapStateToProps,

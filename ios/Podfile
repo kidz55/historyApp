@@ -29,6 +29,12 @@ target 'reactNativeQuizz' do
 
   pod 'BVLinearGradient', :path => '../node_modules/react-native-linear-gradient'
 
+  pod 'RNRate', :path => '../node_modules/react-native-rate'
+
+  pod 'lottie-react-native', :path => '../node_modules/lottie-react-native'
+
+  pod 'react-native-material-kit', :path => '../node_modules/react-native-material-kit'
+
   target 'reactNativeQuizzTests' do
     inherit! :search_paths
     # Pods for testing
