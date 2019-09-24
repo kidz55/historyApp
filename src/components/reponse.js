@@ -9,10 +9,10 @@ const Reponse = props => {
     };
     switch (props.statusColor) {
       case 'bad':
-        style.backgroundColor = '#db7c7c';
+        style.backgroundColor = '#c93838';
         break;
       case 'good':
-        style.backgroundColor = '#7cdb9b';
+        style.backgroundColor = '#43ab92';
         break;
       default:
         style.backgroundColor = null;

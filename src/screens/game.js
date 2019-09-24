@@ -119,7 +119,7 @@ class Game extends React.Component {
         disabled={!this.state.isCurrentQuestionClicked}>
         <LinearGradient
           style={styles.container}
-          colors={['#005AA7', '#FFFDE4']}>
+          colors={['#f75f00', '#512c62']}>
           <Score score={this.props.getCurrentScore} />
           <Question
             maxTime={MAX_TIME_PER_QUESTION}
@@ -206,16 +206,16 @@ export default connect(
 const styles = StyleSheet.create({
   questionContainerUp: {
     justifyContent: 'center',
-    borderColor: '#FFFDE4',
-    backgroundColor: '#005AA7',
+    borderColor: '#f75f00',
+    backgroundColor: '#512c62',
     borderTopWidth: 2,
     borderBottomWidth: 2,
     width: '50%',
   },
   questionContainerDown: {
     justifyContent: 'center',
-    borderColor: '#FFFDE4',
-    backgroundColor: '#005AA7',
+    borderColor: '#f75f00',
+    backgroundColor: '#512c62',
     borderBottomWidth: 2,
     width: '50%',
   },
@@ -226,7 +226,6 @@ const styles = StyleSheet.create({
   },
   timer: {
     flex: 1,
-    backgroundColor: 'blue',
   },
   questionLabel: {
     textAlign: 'justify',
@@ -244,6 +243,7 @@ const styles = StyleSheet.create({
   },
   tip: {
     fontSize: 15,
+    color: 'white',
     textAlign: 'center',
   },
   advertiser: {

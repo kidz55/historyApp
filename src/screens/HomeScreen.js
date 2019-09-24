@@ -1,5 +1,11 @@
 import React from 'react';
-import {View, StyleSheet, ActivityIndicator} from 'react-native';
+import {
+  View,
+  StyleSheet,
+  ActivityIndicator,
+  Animated,
+  Easing,
+} from 'react-native';
 import {connect} from 'react-redux';
 import ButtonCustom from '../components/button';
 import LinearGradient from 'react-native-linear-gradient';
@@ -21,16 +27,38 @@ class HomeScreen extends React.Component {
       <ButtonCustom
         onPress={this.goToQuestion}
         buttonText="START QUIZ"
-        buttonColor="#7cdb9b"
+        buttonColor="#43ab92"
       />
     );
   };
   render() {
+    let scaleValue = new Animated.Value(0);
+    const buttonScale = scaleValue.interpolate({
+      inputRange: [0, 0.5, 1],
+      outputRange: [1, 0.8, 1],
+    });
+    let transformStyle = {
+      ...styles.image,
+      transform: [{scale: buttonScale}],
+    };
+    scaleValue.setValue(0);
+    Animated.timing(scaleValue, {
+      toValue: 1,
+      duration: 2500,
+      easing: Easing.linear,
+      useNativeDriver: true,
+    }).start();
     return (
       <LinearGradient
         style={styles.linearGradient}
-        colors={['#005AA7', '#FFFDE4']}>
-        <View style={styles.button}>{this.buttonView()}</View>
+        colors={['#f75f00', '#512c62']}>
+        <View style={styles.imgWrapper}>
+          <Animated.Image
+            style={transformStyle}
+            source={require('../static/home_movie.png')}
+          />
+          <View style={styles.button}>{this.buttonView()}</View>
+        </View>
       </LinearGradient>
     );
   }
@@ -53,12 +81,21 @@ const mapDispatchToProps = dispatch => {
 };
 
 const styles = StyleSheet.create({
-  linearGradient: {
+  image: {
+    width: 200,
+    height: 200,
+  },
+  imgWrapper: {
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
   },
+  linearGradient: {
+    flex: 1,
+    alignItems: 'center',
+  },
   button: {
+    marginTop: 50,
     height: 50,
   },
 });

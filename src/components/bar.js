@@ -3,7 +3,7 @@ import {View, StyleSheet} from 'react-native';
 
 export default class Bar extends Component {
   getColor = () => {
-    return this.props.score.isGoodAnswer ? 'green' : 'red';
+    return this.props.score.isGoodAnswer ? '#43ab92' : '#c93838';
   };
   render() {
     return <View style={[styles.bar, {backgroundColor: this.getColor()}]} />;

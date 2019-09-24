@@ -23,7 +23,7 @@ class End extends React.Component {
     return (
       <LinearGradient
         style={styles.endContainer}
-        colors={['#005AA7', '#FFFDE4']}>
+        colors={['#f75f00', '#512c62']}>
         <View style={styles.imageContainer}>
           <Image source={require('../static/oscars.png')} />
         </View>
@@ -37,12 +37,12 @@ class End extends React.Component {
           <ButtonCustom
             onPress={() => this.goToHomeScreen(false)}
             buttonText="NEXT GAME"
-            buttonColor="#7cdb9b"
+            buttonColor="#43ab92"
           />
           <ButtonCustom
             onPress={() => this.goToHomeScreen(true)}
             buttonText="RETRY"
-            buttonColor="#db7c7c"
+            buttonColor="#c93838"
           />
         </View>
         <Rating />
