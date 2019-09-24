@@ -16,7 +16,7 @@ const AppNavigator = createStackNavigator(
     },
   },
   {
-    initialRouteName: 'Home',
+    initialRouteName: 'End',
     mode: 'modal',
     headerMode: 'none',
   },

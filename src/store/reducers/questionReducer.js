@@ -6,6 +6,7 @@ import {
   UPDATE_STATUS_MAP,
   INIT_STATUS_MAP,
   UPDATE_SCORE,
+  RETRY_QUESTION,
 } from '../actions/types';
 
 const initialState = {
@@ -33,6 +34,14 @@ const questionsReducer = (state = initialState, action) => {
     case INIT_STATUS_MAP:
       state = {
         ...state,
+        statusMap: ['unselected', 'unselected', 'unselected', 'unselected'],
+      };
+      break;
+    case RETRY_QUESTION:
+      state = {
+        ...state,
+        historyScore: [],
+        currentIndex: 0,
         statusMap: ['unselected', 'unselected', 'unselected', 'unselected'],
       };
       break;

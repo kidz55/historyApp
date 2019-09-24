@@ -7,6 +7,7 @@ import {
   INIT_STATUS_MAP,
   INC_CURRENT_INDEX,
   UPDATE_SCORE,
+  RETRY_QUESTION,
 } from '../actions/types';
 
 export const handleUserResponse = statusMap => {
@@ -34,6 +35,13 @@ export const selectNextQuestion = () => {
   };
 };
 
+export const retryQuestions = () => {
+  return function(dispatch) {
+    dispatch({
+      type: RETRY_QUESTION,
+    });
+  };
+}
 export const getQuestions = () => {
   return function(dispatch) {
     dispatch({
