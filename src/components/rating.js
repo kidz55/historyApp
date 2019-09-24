@@ -1,16 +1,11 @@
 import React from 'react';
-import {
-  View,
-  Text,
-  StyleSheet,
-  Image,
-  TouchableWithoutFeedback,
-  Animated,
-  Easing,
-} from 'react-native';
+import {View, Text, StyleSheet} from 'react-native';
+import EmojiButton from './emojiButton';
 import Rate, {AndroidMarket} from 'react-native-rate';
+import {connect} from 'react-redux';
+import {ratingDone} from '../store/actions/ratingAction';
 
-export default class Rating extends React.Component {
+class Rating extends React.Component {
   goToRating = () => {
     let options = {
       GooglePackageName: 'com.quizzy.quizz',
@@ -21,75 +16,56 @@ export default class Rating extends React.Component {
       if (success) {
         // this technically only tells us if the user successfully went to the Review Page. Whether they actually did anything, we do not know.
         this.setState({isRated: true});
+        this.props.ratingDone();
       }
     });
   };
   thankUser = () => {
-    console.log('thx');
+    this.props.ratingDone();
   };
-  render() {
-    let scaleValue = new Animated.Value(0);
-    const buttonScale = scaleValue.interpolate({
-      inputRange: [0, 0.5, 1],
-      outputRange: [1, 0.8, 1],
-    });
-    let transformStyle = {
-      ...styles.image,
-      transform: [{scale: buttonScale}],
-    };
-    return (
+  showRatingView = () => {
+    return !this.props.isRatingDone ? (
       <View style={styles.ratingContainer}>
         <Text style={styles.ratingTitle}>Did you enjoy the quiz</Text>
         <View style={styles.ratingWrapper}>
-          <TouchableWithoutFeedback
-            onPress={() => {
-              scaleValue.setValue(0);
-              Animated.timing(scaleValue, {
-                toValue: 1,
-                duration: 250,
-                easing: Easing.linear,
-                useNativeDriver: true,
-              }).start();
-              this.thankUser();
-            }}>
-            <Animated.Image
-              style={transformStyle}
-              source={require('../static/emoji_angry.png')}
-            />
-          </TouchableWithoutFeedback>
-          <TouchableWithoutFeedback onPress={this.thankUser}>
-            <Image
-              style={styles.image}
-              source={require('../static/emoji_bad.png')}
-            />
-          </TouchableWithoutFeedback>
-          <TouchableWithoutFeedback onPress={this.goToRating}>
-            <Image
-              style={styles.image}
-              source={require('../static/emoji_good.png')}
-            />
-          </TouchableWithoutFeedback>
-          <TouchableWithoutFeedback onPress={this.goToRating}>
-            <Image
-              style={styles.image}
-              source={require('../static/emoji_love.png')}
-            />
-          </TouchableWithoutFeedback>
+          <EmojiButton emoji="angry" onEmojiPress={this.thankUser} />
+          <EmojiButton emoji="bad" onEmojiPress={this.thankUser} />
+          <EmojiButton emoji="good" onEmojiPress={this.goToRating} />
+          <EmojiButton emoji="love" onEmojiPress={this.goToRating} />
         </View>
       </View>
+    ) : (
+      <View style={styles.ratingContainer}>
+        <Text style={styles.ratingTitle}>Thank you</Text>
+      </View>
     );
+  };
+  render() {
+    return this.showRatingView();
   }
 }
+
+const mapStateToProps = state => {
+  return {
+    isRatingDone: state.ratingReducer.isRatingDone,
+  };
+};
+
+const mapDispatchToProps = dispatch => {
+  return {
+    ratingDone: () => dispatch(ratingDone()),
+  };
+};
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(Rating);
 
 const styles = StyleSheet.create({
   ratingContainer: {
     flex: 2,
     alignItems: 'center',
     justifyContent: 'center',
-  },
-  image: {
-    width: 70,
-    height: 70,
   },
   ratingTitle: {
     fontSize: 30,

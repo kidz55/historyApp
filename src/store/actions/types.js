@@ -6,3 +6,5 @@ export const UPDATE_STATUS_MAP = 'UPDATE_STATUS_MAP';
 export const INIT_STATUS_MAP = 'INIT_STATUS_MAP';
 export const UPDATE_SCORE = 'UPDATE_SCORE';
 export const RETRY_QUESTION = 'RETRY_QUESTION';
+
+export const RATING_DONE = 'RATING_DONE';

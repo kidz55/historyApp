@@ -1,20 +1,11 @@
 import React from 'react';
 import {connect} from 'react-redux';
-import {
-  View,
-  Text,
-  StyleSheet,
-  Image,
-  TouchableWithoutFeedback,
-  Animated,
-  Easing,
-} from 'react-native';
+import {View, Text, StyleSheet, Image} from 'react-native';
 import {getScore} from '../store/getters/score';
 import {getQuestions, retryQuestions} from '../store/actions/questions';
 import LinearGradient from 'react-native-linear-gradient';
 import ButtonCustom from '../components/button';
 import Rating from '../components/rating';
-import Rate, {AndroidMarket} from 'react-native-rate';
 
 class End extends React.Component {
   state = {
