@@ -4,7 +4,7 @@ const logger = ({getState}) => {
 
     const returnValue = next(action);
 
-    // console.log('state after dispatch', getState().questionReducer);
+    console.log('state after dispatch', getState());
 
     return returnValue;
   };

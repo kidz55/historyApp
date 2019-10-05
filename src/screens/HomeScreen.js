@@ -19,16 +19,26 @@ class HomeScreen extends React.Component {
   goToQuestion = () => {
     this.props.navigation.navigate('Game');
   };
+  goToPurchase = () => {
+    this.props.navigation.navigate('Purchase', {parentView: 'Home'});
+  };
   buttonView = () => {
     if (this.props.status === 'waiting') {
       return <ActivityIndicator animating size="large" color="#005AA7" />;
     }
     return (
-      <ButtonCustom
-        onPress={this.goToQuestion}
-        buttonText="START QUIZ"
-        buttonColor="#43ab92"
-      />
+      <View>
+        <ButtonCustom
+          onPress={this.goToQuestion}
+          buttonText="START QUIZ"
+          buttonColor="#43ab92"
+        />
+        <ButtonCustom
+          onPress={this.goToPurchase}
+          buttonText="START QUIZ WITHOUT ADS"
+          buttonColor="#43ab92"
+        />
+      </View>
     );
   };
   render() {

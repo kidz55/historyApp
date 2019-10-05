@@ -8,3 +8,5 @@ export const UPDATE_SCORE = 'UPDATE_SCORE';
 export const RETRY_QUESTION = 'RETRY_QUESTION';
 
 export const RATING_DONE = 'RATING_DONE';
+
+export const REMOVE_ADS_PURCHASE = 'REMOVE_ADS_PURCHASE';

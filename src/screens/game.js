@@ -207,7 +207,6 @@ const styles = StyleSheet.create({
   questionContainerUp: {
     justifyContent: 'center',
     borderColor: '#f75f00',
-    backgroundColor: '#512c62',
     borderTopWidth: 2,
     borderBottomWidth: 2,
     width: '50%',
@@ -215,7 +214,6 @@ const styles = StyleSheet.create({
   questionContainerDown: {
     justifyContent: 'center',
     borderColor: '#f75f00',
-    backgroundColor: '#512c62',
     borderBottomWidth: 2,
     width: '50%',
   },

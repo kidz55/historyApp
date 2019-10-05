@@ -41,7 +41,7 @@ export const retryQuestions = () => {
       type: RETRY_QUESTION,
     });
   };
-}
+};
 export const getQuestions = () => {
   return function(dispatch) {
     dispatch({
