@@ -15,11 +15,11 @@ export default class Button extends Component {
 
 const styles = StyleSheet.create({
   button: {
-    flex: 1,
     justifyContent: 'center',
     width: 300,
-    height: 40,
+    height: 80,
     margin: 2,
+    borderRadius: 10,
   },
   text: {
     textAlign: 'center',

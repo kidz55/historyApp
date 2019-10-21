@@ -2,6 +2,7 @@ import HomeScreen from './screens/HomeScreen';
 import Game from './screens/game';
 import End from './screens/end';
 import Purchase from './screens/purchase';
+import MoreQuiz from './screens/moreQuiz';
 import {createStackNavigator} from 'react-navigation-stack';
 import {createAppContainer} from 'react-navigation';
 const AppNavigator = createStackNavigator(
@@ -17,6 +18,9 @@ const AppNavigator = createStackNavigator(
     },
     Purchase: {
       screen: Purchase,
+    },
+    MoreQuiz: {
+      screen: MoreQuiz,
     },
   },
   {

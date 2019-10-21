@@ -13,29 +13,58 @@ class Purchase extends React.Component {
   state = {
     inappPurchases: [],
     receipt: {},
-    isRemoveAdsPurchased: false,
+  };
+  goToGame = () => {
+    this.props.navigation.navigate('Game');
   };
   removeAds = async () => {
-    try {
-      await RNIap.requestPurchase('remove_ads', false);
-    } catch (err) {
-      console.warn(err.code, err.message);
-    } finally {
+    let purchaseUpdate = RNIap.purchaseUpdatedListener();
+    console.log(purchaseUpdate);
+    RNIap.requestPurchase('remove_ads', false).finally(() => {
       if (this.props.navigation.state.params.parentView === 'Home') {
-        this.setState({
-          isRemoveAdsPurchased: true,
-        });
         this.props.navigation.navigate('Game');
       } else {
         this.props.navigation.navigate('End');
       }
-      this.props.purchaseRemoveAds();
-    }
+    });
   };
   getLabelButtonWithPrice = () => {
     return this.state.inappPurchases.length > 0
       ? `REMOVE ADS (${this.state.inappPurchases[0].localizedPrice})`
       : 'REMOVE ADS';
+  };
+  buyRemoveAddView = () => {
+    return (
+      <View>
+        <View style={styles.purchaseTextContainer}>
+          <Text style={styles.purchaseText}>
+            In order to monetize this app, I use adveristing but if if you're
+            willing to buy me a coffee, I'll remove them for you.
+          </Text>
+        </View>
+        <View style={styles.purchaseButtonContainer}>
+          <ButtonCustom
+            onPress={this.removeAds}
+            buttonColor="#43ab92"
+            buttonText={this.getLabelButtonWithPrice()}
+          />
+        </View>
+      </View>
+    );
+  };
+  thankYouView = () => {
+    return (
+      <View style={styles.purchaseTextContainer}>
+        <Text style={styles.purchaseText}>THANK YOU VERY MUCH</Text>
+        <View style={styles.purchaseButtonContainer}>
+          <ButtonCustom
+            onPress={this.goToGame}
+            buttonColor="#43ab92"
+            buttonText="START GAME"
+          />
+        </View>
+      </View>
+    );
   };
   render() {
     return (
@@ -48,46 +77,27 @@ class Purchase extends React.Component {
             source={require('../static/coffee-cup.png')}
           />
         </View>
-        {!this.state.isRemoveAdsPurchased ? (
-          <View>
-            <View style={styles.purchaseTextContainer}>
-              <Text style={styles.purchaseText}>
-                In order to monetize this app, I shamefully use adveristing but
-                if you're willing to buy me a coffee, I'll remove them for you.
-              </Text>
-            </View>
-            <View style={styles.purchaseButtonContainer}>
-              <ButtonCustom
-                onPress={this.removeAds}
-                buttonColor="green"
-                buttonText={this.getLabelButtonWithPrice()}
-              />
-            </View>
-          </View>
-        ) : (
-          <View style={styles.purchaseTextContainer}>
-            <Text style={styles.purchaseText}>THANK YOU VERY MUCH</Text>
-          </View>
-        )}
+        {!this.props.isRemoveAdsPurchased
+          ? this.buyRemoveAddView()
+          : this.thankYouView()}
       </LinearGradient>
     );
   }
   componentDidMount() {
-    RNIap.getPurchaseHistory()
-      .then(purchases => {
-        this.setState({
-          isRemoveAdsPurchased: purchases.some(
-            el => el.productId === 'remove_ads',
-          ),
-        });
-      })
-      .catch(error => {
-        console.log(error.message);
-      });
     RNIap.getProducts(this.items)
       .then(products => {
         this.setState({inappPurchases: products});
         console.log('PRODUCTS', products);
+        this.purchaseUpdateSubscription = RNIap.purchaseUpdatedListener(
+          inAppPurchase => {
+            if (
+              'productId' in inAppPurchase &&
+              inAppPurchase.productId === 'remove_ads'
+            ) {
+              this.props.purchaseRemoveAds();
+            }
+          },
+        );
       })
       .catch(error => {
         console.log(error.message);
@@ -128,7 +138,9 @@ const styles = StyleSheet.create({
 });
 
 const mapStateToProps = state => {
-  return {};
+  return {
+    isRemoveAdsPurchased: state.optionReducer.isRemoveAdsPurchased,
+  };
 };
 
 const mapDispatchToProps = dispatch => {

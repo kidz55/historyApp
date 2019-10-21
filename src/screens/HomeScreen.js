@@ -10,6 +10,8 @@ import {connect} from 'react-redux';
 import ButtonCustom from '../components/button';
 import LinearGradient from 'react-native-linear-gradient';
 import {getQuestions} from '../store/actions/questions';
+import {purchaseRemoveAds} from '../store/actions/optionAction';
+import * as RNIap from 'react-native-iap';
 
 class HomeScreen extends React.Component {
   state = {
@@ -26,16 +28,27 @@ class HomeScreen extends React.Component {
     if (this.props.status === 'waiting') {
       return <ActivityIndicator animating size="large" color="#005AA7" />;
     }
-    return (
-      <View>
+    return this.props.isRemoveAdsPurchased ? (
+      <View style={styles.buttonGroup}>
         <ButtonCustom
+          style={styles.buttonWrapper}
           onPress={this.goToQuestion}
           buttonText="START QUIZ"
           buttonColor="#43ab92"
         />
+      </View>
+    ) : (
+      <View style={styles.buttonGroup}>
         <ButtonCustom
+          style={styles.buttonWrapper}
           onPress={this.goToPurchase}
           buttonText="START QUIZ WITHOUT ADS"
+          buttonColor="green"
+        />
+        <ButtonCustom
+          style={styles.buttonWrapper}
+          onPress={this.goToQuestion}
+          buttonText="START QUIZ"
           buttonColor="#43ab92"
         />
       </View>
@@ -73,6 +86,15 @@ class HomeScreen extends React.Component {
     );
   }
   componentDidMount() {
+    RNIap.getPurchaseHistory()
+      .then(purchases => {
+        if (purchases.some(el => el.productId === 'remove_ads')) {
+          this.props.purchaseRemoveAds();
+        }
+      })
+      .catch(error => {
+        console.log(error.message);
+      });
     this.props.qetQuestions();
   }
 }
@@ -81,12 +103,14 @@ const mapStateToProps = state => {
   return {
     questions: state.questions,
     status: state.questionReducer.status,
+    isRemoveAdsPurchased: state.optionReducer.isRemoveAdsPurchased,
   };
 };
 
 const mapDispatchToProps = dispatch => {
   return {
     qetQuestions: () => dispatch(getQuestions()),
+    purchaseRemoveAds: () => dispatch(purchaseRemoveAds()),
   };
 };
 
@@ -94,6 +118,14 @@ const styles = StyleSheet.create({
   image: {
     width: 200,
     height: 200,
+  },
+  buttonWrapper: {
+    marginBottom: 50,
+  },
+  buttonGroup: {
+    height: 200,
+    alignItems: 'center',
+    justifyContent: 'space-between',
   },
   imgWrapper: {
     flex: 1,

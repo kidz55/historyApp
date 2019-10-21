@@ -19,6 +19,9 @@ class End extends React.Component {
     }
     this.props.navigation.navigate('Home');
   };
+  goToMoreQuiz = () => {
+    this.props.navigation.navigate('MoreQuiz');
+  };
   render() {
     return (
       <LinearGradient
@@ -40,9 +43,9 @@ class End extends React.Component {
             buttonColor="#43ab92"
           />
           <ButtonCustom
-            onPress={() => this.goToHomeScreen(true)}
-            buttonText="RETRY"
-            buttonColor="#c93838"
+            onPress={this.goToMoreQuiz}
+            buttonText="MORE QUIZZES"
+            buttonColor="#da4302"
           />
         </View>
         <Rating />

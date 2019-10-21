@@ -36,14 +36,18 @@ class Game extends React.Component {
   };
   goToNextQuestion = () => {
     if (this.props.isGameOver) {
-      AdMobInterstitial.setAdUnitID('ca-app-pub-4007855389429279/8480989040');
-      AdMobInterstitial.setTestDevices([AdMobInterstitial.simulatorId]);
-      AdMobInterstitial.requestAd().then(() => AdMobInterstitial.showAd());
+      this.showInterstitialAds();
       this.props.navigation.navigate('End');
     } else {
       this.props.selectNextQuestion();
       this.startQuestionSession();
     }
+  };
+  showInterstitialAds = () => {
+    if (this.props.isRemoveAdsPurchased) return;
+    AdMobInterstitial.setAdUnitID('ca-app-pub-4007855389429279/8480989040');
+    AdMobInterstitial.setTestDevices([AdMobInterstitial.simulatorId]);
+    AdMobInterstitial.requestAd().then(() => AdMobInterstitial.showAd());
   };
   startQuestionSession = () => {
     this.setState({isCurrentQuestionClicked: false});
@@ -109,6 +113,20 @@ class Game extends React.Component {
       return <Text style={styles.tip} />;
     }
   };
+  showAds = () => {
+    if (!this.props.isRemoveAdsPurchased) {
+      return (
+        <View style={styles.advertiser}>
+          <AdMobBanner
+            adSize="fullBanner"
+            adUnitID="ca-app-pub-4007855389429279/6872571512"
+            testDevices={['']}
+            onAdFailedToLoad={error => console.log(error)}
+          />
+        </View>
+      );
+    }
+  };
   componentDidMount() {
     this.startQuestionSession();
   }
@@ -165,14 +183,7 @@ class Game extends React.Component {
             })}
           </View>
           {this.showMessageNextQuestion()}
-          <View style={styles.advertiser}>
-            <AdMobBanner
-              adSize="fullBanner"
-              adUnitID="ca-app-pub-4007855389429279/6872571512"
-              testDevices={['']}
-              onAdFailedToLoad={error => console.log(error)}
-            />
-          </View>
+          {this.showAds()}
         </LinearGradient>
       </TouchableWithoutFeedback>
     );
@@ -185,6 +196,7 @@ const mapStateToProps = state => {
     isGameOver: isGameOver(state),
     getCurrentScore: getCurrentScore(state),
     statusMap: state.questionReducer.statusMap,
+    isRemoveAdsPurchased: state.optionReducer.isRemoveAdsPurchased,
   };
 };
 
