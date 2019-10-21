@@ -128,10 +128,10 @@ android {
     }
 
     defaultConfig {
-        applicationId "com.quizzy.quizz"
+        applicationId "com.quizzy.sport"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 4
+        versionCode 7
         versionName "3.1"
     }
     splits {

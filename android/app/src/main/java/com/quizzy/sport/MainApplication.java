@@ -1,4 +1,4 @@
-package com.quizzy.quizz;
+package com.quizzy.sport;
 
 import android.app.Application;
 import android.content.Context;
